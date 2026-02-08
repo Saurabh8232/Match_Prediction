@@ -1,7 +1,7 @@
 const form = document.getElementById("predictionForm");
 const resultDiv = document.getElementById("result");
 
-const API_URL = "http://127.0.0.1:8000/api/predict/";
+const API_URL = "http://127.0.0.1:8000/predict/";
 
 form.addEventListener("submit", function (e) {
     e.preventDefault();
