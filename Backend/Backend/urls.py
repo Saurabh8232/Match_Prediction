@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from .views import MatchPredictionView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', MatchPredictionView, name='match_prediction'),
+
 ]
