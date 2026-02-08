@@ -8,14 +8,7 @@ model = joblib.load(os.path.join(BASE_DIR, "MechineLearning/blood_sugar_model.pk
 scaler = joblib.load(os.path.join(BASE_DIR, "MechineLearning/scaler.pkl"))
 
 def predict_blood_sugar(features):
-    """
-    features = [
-        Age, Gender, HeartRate,
-        SystolicBP, DiastolicBP,
-        CK_MB, Troponin
-    ]
-    """
     data = np.array(features).reshape(1, -1)
     data_scaled = scaler.transform(data)
-    prediction = model.predict(data)
+    prediction = model.predict(data_scaled)
     return prediction[0]

@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from .MechineLearning.predictor import predict_blood_sugar
 
 # Create your views here.
-
 class BloodSugarPredictionView(APIView):
     def post(self, request):
         data = request.data
