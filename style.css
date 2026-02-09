@@ -1,0 +1,259 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+
+
+  .logo {
+    color: rgb(243, 1, 1);
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    
+  }
+  
+
+  
+  /* Scroll bar hatao */
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;  /* horizontal scroll disable */
+  }
+  
+  /* Hero Section */
+  .hero {
+    height: 100vh;
+    background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80') 
+                no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 300px;
+    color: white;
+    position: relative;
+    
+    
+  }
+  
+  .hero::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+  }
+  
+   /* Book your stay full your detail... */
+ 
+  .hero-content {
+    position: relative;
+    max-width: 600px;
+    z-index: 10;
+    text-align: left;
+  }
+  
+  .hero h1 {
+    font-size: 48px;
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+  
+  .hero p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  
+  .buttons {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .btn {
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: 0.3s;
+  }
+  
+  .btn-primary {
+    background: #d4516f;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background: #d4516f;
+  }
+  
+  .btn-outline {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+  }
+  
+  .btn-outline:hover {
+    background: white;
+    color: black;
+  }
+  
+
+  .btn {
+    cursor: pointer;
+    pointer-events: auto;   /* force enable click */
+    position: relative;     /* safe positioning */
+    z-index: 1000;          /* button sabse upar rahe */
+  }
+
+  
+
+
+
+
+  /* Header bar */
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 25px 440px;
+    display: flex;
+    justify-content: space-between; /* Logo left, others right */
+    align-items: center;
+    background: transparent;
+    z-index: 1000;
+  }
+  
+  /* Navigation */
+  header nav ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+  
+  header nav ul li a:hover {
+    color: #ffcc00;
+  }
+  
+
+  
+  /* Scroll disable */
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    padding: 15px 550px;
+  }
+
+
+  .booking-form {
+    position: relative;
+    z-index: 10;  /* sabse upar layega */
+    background: rgba(0, 0, 0, 0.5); /* halka transparent bg optional */
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+
+
+  .booking-form input {
+    width: 50%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+  }
+
+
+
+
+
+
+
+
+
+
+
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f6fa;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 70%;
+    margin: 50px auto;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.row.single {
+    justify-content: center;
+}
+
+.field {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+.field.full {
+    width: 100%;
+}
+
+label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #c2eaf3;
+}
+
+input, select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+button {
+    display: block;
+    margin: 30px auto 0;
+    padding: 12px 30px;
+    background-color: #2c7be5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #1a5dcc;
+}
