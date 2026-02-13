@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>T-20 Cricket Prediction</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .hero-content{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+#leftFlag img{
+     width:250px;
+    border-radius:10px;
+    display:none;
+     padding-top: 70px;
+     padding-right: 50px;
+
+}
+#rightFlag img{
+    width:250px;
+    border-radius:10px;
+    display:none;
+     padding-top: 60px;
+
+}
+    
+
+    #captainPhoto{
+        margin-left: 50px;
+         padding-top: 60px;
+         
+    
+       
+    }
+
+    #teamImage{
+        width: 250px;
+        border-radius: 10px;
+        display: none;
+         padding-top: 60px;
+
+
+     
+      
+         
+    
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">T-20 Cricket🏏</div>
+</header>
+
+<header style="padding: 30px 850px;">
+    <nav>
+        <ul>
+            <li><a href="front_page.html">Home</a></li>
+            <li><a href="">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="Toss.html">Toss Probability</a></li>
+            <li><a href="#">Reviews</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="hero">
+<div class="hero-content">
+
+  <div id="leftFlag">
+    <img id="leftImage">
+</div>
+
+<div>
+<h1>Cricket Live Prediction</h1>
+
+<div class="row">
+<div class="field">
+<label>Select the batting team</label>
+<select id="batting" onchange="showLeftFlag()">
+<option value="">-- Select Batting Team --</option>
+<option value="India">India</option>
+<option value="England">England</option>
+<option value="Australia">Australia</option>
+<option value="South Africa">South Africa</option>
+<option value="Pakistan">Pakistan</option>
+<option value="New Zealand">New Zealand</option>
+<option value="Sri Lanka">Sri Lanka</option>
+<option value="Bangladesh">Bangladesh</option>
+<option value="Afghanistan">Afghanistan</option>
+<option value="West Indies">West Indies</option>
+<option value="Ireland">Ireland</option>
+<option value="Scotland">Scotland</option>
+<option value="Netherlands">Netherlands</option>
+<option value="Zimbabwe">Zimbabwe</option>
+</select>
+</div>
+
+<div class="field">
+<label>Select the bowling team</label>
+<select  id="bowling" onchange="showRightFlag()">
+<option value="">-- Select Bowling Team --</option>
+<option>India</option>
+<option>England</option>
+<option>Australia</option>
+<option>South Africa</option>
+<option>Pakistan</option>
+<option>New Zealand</option>
+<option>Sri Lanka</option>
+<option>Bangladesh</option>
+<option>Afghanistan</option>
+<option>West Indies</option>
+<option>Ireland</option>
+<option>Scotland</option>
+<option>Netherlands</option>
+<option>Zimbabwe</option>
+</select>
+</div>
+</div>
+
+<br>
+
+<div class="row">
+<div class="field">
+<label>Score</label>
+<input type="number" value="21">
+</div>
+
+<div class="field">
+<label>Overs completed</label>
+<input type="number" step="0.1" value="5.0">
+</div>
+
+<div class="field">
+<label>Wickets out</label>
+<input type="number" value="3">
+</div>
+</div>
+
+<br>
+
+
+    <div class="row single">
+        <div class="field full">
+            <label>Runs in last 5 overs</label>
+            <input type="number" value="21">
+        </div>
+    </div>
+
+<br>
+
+<button>Predict Score</button>
+
+</div>
+
+<!-- RIGHT SIDE IMAGE -->
+<div id="rightFlag">
+    <img id="rightImage">
+</div>
+
+</div>
+</section>
+
+<!-- JAVASCRIPT -->
+<script>
+function getImagePath(team){
+    return "images/" + team.toLowerCase().replace(" ", "") + ".jpg";
+}
+
+function showLeftFlag(){
+    let team = document.getElementById("batting").value;
+    let img = document.getElementById("leftImage");
+
+    if(team==""){
+        img.style.display="none";
+        return;
+    }
+
+    img.src = getImagePath(team);
+    img.style.display="block";
+}
+
+function showRightFlag(){
+    let team = document.getElementById("bowling").value;
+    let img = document.getElementById("rightImage");
+
+    if(team==""){
+        img.style.display="none";
+        return;
+    }
+
+    img.src = getImagePath(team);
+    img.style.display="block";
+}
+
+</script>
+</body>
+</html>
