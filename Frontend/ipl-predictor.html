@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IPL Predictor — CricketAI</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .predictor-wrap {
+      max-width: 1100px; margin: 48px auto 0;
+      padding: 0 6%;
+      display: grid; grid-template-columns: 1fr 340px; gap: 28px; align-items: start;
+    }
+    @media(max-width:900px) { .predictor-wrap { grid-template-columns:1fr; } }
+
+    /* ── Form card ── */
+    .form-card {
+      background: var(--card);
+      border: 1px solid var(--border-lt);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .form-card-top {
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--border-lt);
+      display: flex; align-items: center; gap: 14px;
+    }
+    .fct-icon {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: var(--green-dim); color: var(--green);
+      display: flex; align-items: center; justify-content: center; font-size: 16px;
+    }
+    .fct-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px; font-weight: 600; color: var(--text);
+    }
+    .fct-text p { font-size: 12.5px; color: var(--muted); }
+    .form-body { padding: 28px; }
+
+    .field-section {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 1.8px; text-transform: uppercase;
+      color: var(--muted-lt); margin: 22px 0 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .field-section:first-child { margin-top: 0; }
+    .field-section i { font-size: 9px; color: var(--green); }
+    .field-section::after { content:''; flex:1; height:1px; background:var(--border-lt); }
+
+    .submit-row { margin-top: 26px; }
+    .submit-row .btn {
+      width: 100%; justify-content: center;
+      padding: 13px; font-size: 14.5px;
+    }
+
+    /* ── Right panel ── */
+    .right-panel { display: flex; flex-direction: column; gap: 16px; }
+
+    .result-box {
+      background: var(--card);
+      border: 1px solid var(--border-lt);
+      border-radius: var(--radius);
+      padding: 24px 20px; text-align: center;
+    }
+    .result-box.highlighted { border-color: var(--green); border-left: 3px solid var(--green); }
+    .result-box.highlighted-red { border-color: var(--red); border-left: 3px solid var(--red); }
+
+    .rb-label {
+      font-size: 10.5px; font-weight: 700;
+      letter-spacing: 1.8px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 10px;
+    }
+    .rb-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 64px; font-weight: 700; line-height: 1;
+      color: var(--text);
+    }
+    .rb-value.v-green { color: var(--green); }
+    .rb-value.v-forest { color: var(--forest); }
+    .rb-sub { font-size: 12.5px; color: var(--muted); margin-top: 7px; line-height: 1.5; }
+
+    .info-panel {
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+    .info-panel h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px; font-weight: 600; color: var(--text);
+      margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+    }
+    .info-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .info-list li {
+      font-size: 13px; color: var(--muted);
+      display: flex; align-items: flex-start; gap: 8px; line-height: 1.5;
+    }
+    .info-list li i { color: var(--green); font-size: 11px; margin-top: 3px; flex-shrink: 0; }
+    .info-list li i.warn { color: var(--amber); }
+
+    /* Summary card (post-prediction) */
+    .summary-card {
+      background: var(--forest);
+      border-radius: var(--radius); padding: 20px;
+      display: none; margin-top: 18px;
+    }
+    .summary-card.show { display: block; }
+    .sc-head {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      color: rgba(245,240,232,.35); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .sc-teams {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 16px; padding-bottom: 14px;
+      border-bottom: 1px solid rgba(245,240,232,.08);
+    }
+    .sc-team { flex: 1; text-align: center; }
+    .sc-team-code { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: #F5F0E8; }
+    .sc-team-role { font-size: 11px; color: rgba(245,240,232,.35); }
+    .sc-sep { font-size: 12px; color: rgba(245,240,232,.2); font-weight: 700; }
+    .sc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .sc-item { background: rgba(245,240,232,.05); border-radius: 6px; padding: 8px 10px; }
+    .sc-item .si-l { font-size: 10px; color: rgba(245,240,232,.3); margin-bottom: 2px; }
+    .sc-item .si-v { font-size: 13.5px; font-weight: 600; color: rgba(245,240,232,.8); }
+
+    @keyframes pop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
+    .pop { animation: pop .32s ease; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-logo">
+    <div class="logo-dot"><i class="fa-solid fa-cricket-bat-ball"></i></div>
+    Cricket<span>AI</span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#models">Models</a></li>
+    <li><a href="ipl-predictor.html" class="active">IPL Predictor</a></li>
+    <li><a href="team.html">Our Team</a></li>
+    <li><a href="ipl-predictor.html" class="nav-cta">Try Predictor</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-stripe">
+  <div class="section-eyebrow"><i class="fa-solid fa-circle-dot"></i> Live · IPL Model</div>
+  <h1>Score &amp; Wickets Predictor</h1>
+  <p>Enter current match details to get an AI-powered prediction of the final score and wickets remaining.</p>
+</div>
+
+<div class="predictor-wrap">
+
+  <!-- LEFT: FORM -->
+  <div class="anim-1">
+    <div class="form-card">
+      <div class="form-card-top">
+        <div class="fct-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+        <div class="fct-text">
+          <h2>Match Details</h2>
+          <p>Fill all fields — run rate &amp; overs remaining auto-calculate</p>
+        </div>
+      </div>
+      <div class="form-body">
+
+        <div class="field-section"><i class="fa-solid fa-flag"></i> Match Setup</div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Batting Team</label>
+            <select id="batting_team"><option value="">Select team</option></select>
+          </div>
+          <div class="form-group">
+            <label>Bowling Team</label>
+            <select id="bowling_team"><option value="">Select team</option></select>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top:14px;">
+          <div class="form-group">
+            <label>Venue</label>
+            <select id="venue"><option value="">Select venue</option></select>
+          </div>
+          <div class="form-group">
+            <label>Pitch Condition</label>
+            <select id="pitch_condition"><option value="">Select condition</option></select>
+          </div>
+        </div>
+
+        <div class="field-section" style="margin-top:24px;"><i class="fa-solid fa-chart-simple"></i> Innings Stats</div>
+        <div class="grid-3">
+          <div class="form-group">
+            <label>Current Score</label>
+            <input type="number" id="current_score" placeholder="125" min="0"/>
+          </div>
+          <div class="form-group">
+            <label>Overs Completed</label>
+            <input type="number" id="overs_completed" placeholder="14.0" min="0" max="20" step="0.1"/>
+          </div>
+          <div class="form-group">
+            <label>Wickets Out</label>
+            <input type="number" id="wickets_out" placeholder="3" min="0" max="10"/>
+          </div>
+        </div>
+        <div class="grid-3" style="margin-top:14px;">
+          <div class="form-group">
+            <label>Runs Last 5 Overs</label>
+            <input type="number" id="runs_last_5_overs" placeholder="45" min="0"/>
+          </div>
+          <div class="form-group">
+            <label>Overs Remaining</label>
+            <input type="number" id="overs_remaining" placeholder="6.0" min="0" max="20" step="0.1"/>
+          </div>
+          <div class="form-group">
+            <label>Run Rate</label>
+            <input type="number" id="run_rate" placeholder="8.93" step="0.01" min="0"/>
+          </div>
+        </div>
+
+        <div class="msg-error" id="errorMsg" style="display:none;">
+          <i class="fa-solid fa-circle-exclamation"></i> <span id="errorText"></span>
+        </div>
+
+        <div class="submit-row">
+          <button class="btn btn-primary" id="predictBtn" onclick="predict()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Get Prediction
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary appears here after prediction -->
+    <div class="summary-card" id="summaryCard">
+      <div class="sc-head"><i class="fa-solid fa-list-check"></i> Submitted Input</div>
+      <div class="sc-teams">
+        <div class="sc-team"><div class="sc-team-code" id="s_bat">—</div><div class="sc-team-role">Batting</div></div>
+        <div class="sc-sep">vs</div>
+        <div class="sc-team"><div class="sc-team-code" id="s_bowl">—</div><div class="sc-team-role">Bowling</div></div>
+      </div>
+      <div class="sc-grid">
+        <div class="sc-item"><div class="si-l">Score / Wickets</div><div class="si-v" id="s_score">—</div></div>
+        <div class="sc-item"><div class="si-l">Overs Done</div><div class="si-v" id="s_overs">—</div></div>
+        <div class="sc-item"><div class="si-l">Run Rate</div><div class="si-v" id="s_rr">—</div></div>
+        <div class="sc-item"><div class="si-l">Pitch</div><div class="si-v" id="s_pitch">—</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: RESULTS -->
+  <div class="right-panel">
+    <div class="result-box anim-2" id="scoreBox">
+      <div class="rb-label">Predicted Final Score</div>
+      <div class="rb-value v-green" id="predScore">—</div>
+      <div class="rb-sub" id="predScoreSub">Enter details to predict</div>
+    </div>
+
+    <div class="result-box anim-3" id="wicketsBox">
+      <div class="rb-label">Wickets Remaining</div>
+      <div class="rb-value v-forest" id="predWickets">—</div>
+      <div class="rb-sub" id="predWicketsSub">Out of 10</div>
+    </div>
+
+    <div class="result-box anim-4" id="runsBox" style="display:none;">
+      <div class="rb-label">Runs to be Scored</div>
+      <div class="rb-value" id="predRuns" style="font-size:46px;color:var(--amber);">—</div>
+      <div class="rb-sub" id="predRunsSub"></div>
+    </div>
+
+    <div class="info-panel anim-4">
+      <h4><i class="fa-solid fa-circle-info" style="color:var(--green);font-size:15px;"></i> Model Info</h4>
+      <ul class="info-list">
+        <li><i class="fa-solid fa-check"></i> Polynomial Regression · Degree 2</li>
+        <li><i class="fa-solid fa-check"></i> Score accuracy: 92.8% (R²)</li>
+        <li><i class="fa-solid fa-check"></i> IPL data: 2008 – 2024</li>
+        <li><i class="fa-solid fa-check"></i> 10 teams &middot; 8 venues &middot; 5 pitches</li>
+        <li><i class="fa-solid fa-triangle-exclamation warn"></i> Pitch: Dry, Dusty, Flat, Green, Hard</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<footer style="margin-top:60px;">
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="ipl-predictor.html">IPL Predictor</a>
+      <a href="team.html">Our Team</a>
+    </div>
+    <p class="footer-copy">
+      Built by <strong>Team CricketAI</strong> &nbsp;&middot;&nbsp; Under guidance of <strong>Nancy Dhaked Ma'am</strong>
+    </p>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
